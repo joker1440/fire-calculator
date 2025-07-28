@@ -2,8 +2,19 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>FIRE目標導向計算器</title>
+    
+    <!-- PWA設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="FIRE計算器">
+    
+    <!-- iOS圖示 -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEw3MiA5NkgxMjBMOTYgNDhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNzIgMTIwSDEyMFYxNDRINzJWMTIwWiIgZmlsbD0id2hpdGUiLz4KPHN0eWxlPi5zdDB7ZmlsbDp1cmwoI2dyYWRpZW50MF9saW5lYXJfMV8xKX08L3N0eWxlPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMTkyIiB5Mj0iMTkyIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+">
+    
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRklSReebkeaomOWwjOWQkeerpeaVuOWZqCIsInNob3J0X25hbWUiOiJGSVJF6KiI566X5ZmoIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJzdGFydF91cmwiOiIuLyIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2RtbGxkMEp2ZUQwaU1DQXdJREU1TWlBeE9USWlJR1pwYkd3OUltNXZibVVpSUhodGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEhKbFkzUWdkMmxrZEdnOUlqRTVNaUlnYUdWcFoyaDBQU0k1TWlJZ2NIZzlJakl3SWlCbWFXeHNQU0oxY213b0kyZHlZV1JwWlc1ME1GOXNhVzVsWVhKZk1WOHhLU0l2UGp4d1lYUm9JR1E5SWswNU5pQTBPRXczTWlBNU5rZ3hNakJNT1RZZ05EaGFJaUJtYVd4c1BTSjNhR2wwWlNJdlBqeHdZWFJvSUdROUlrMDNNaUF4TWpCb01USTNWakUwTkVnM01sWXhNakJhSWlCbWFXeHNQU0ozYUdsMFpTSXZQand2YzNabkhqd3ZaR1ZtY3o0PSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     <style>
         * {
             margin: 0;
@@ -307,6 +318,39 @@
             body {
                 padding: 10px;
             }
+            
+            .container {
+                border-radius: 10px;
+            }
+            
+            .input-section, .results-section {
+                padding: 20px;
+            }
+            
+            .form-group input {
+                padding: 15px 16px;
+                font-size: 16px; /* 防止iOS縮放 */
+            }
+            
+            .target-main {
+                font-size: 2.5rem;
+            }
+            
+            .result-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* iOS特定優化 */
+        @supports (-webkit-touch-callout: none) {
+            .form-group input {
+                -webkit-appearance: none;
+                border-radius: 8px;
+            }
+            
+            .container {
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
 </head>
@@ -355,6 +399,12 @@
                     <label for="loanStartAge">貸款開始年齡</label>
                     <input type="number" id="loanStartAge" value="37" min="25" max="70">
                     <div class="input-hint">歲</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="downPayment">頭期款</label>
+                    <input type="number" id="downPayment" value="3000000" min="0">
+                    <div class="input-hint">新台幣（元）- 在貸款開始年齡時支付</div>
                 </div>
 
                 <div class="form-group">
@@ -445,6 +495,14 @@
                                 <div class="phase-item">
                                     <span class="phase-label">期末資產</span>
                                     <span class="phase-value" id="phase1EndAssets">2,205萬</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span class="phase-label">頭期款支出</span>
+                                    <span class="phase-value" id="phase1DownPayment">300萬</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span class="phase-label">支付後資產</span>
+                                    <span class="phase-value" id="phase1AfterDownPayment">1,905萬</span>
                                 </div>
                             </div>
                         </div>
@@ -589,6 +647,7 @@
                 const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value) || 0;
                 const postFireExpense = parseInt(document.getElementById('postFireExpense').value) || 0;
                 const loanStartAge = parseInt(document.getElementById('loanStartAge').value) || 37;
+                const downPayment = parseInt(document.getElementById('downPayment').value) || 0;
                 const monthlyLoan = parseInt(document.getElementById('monthlyLoan').value) || 0;
                 const loanYears = parseInt(document.getElementById('loanYears').value) || 30;
                 const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.07;
@@ -621,12 +680,15 @@
                     for (let savings = 10000; savings <= monthlyIncome; savings += 5000) {
                         let assets = currentAssets;
                         
-                        // 第一階段
+                        // 第一階段：累積到貸款開始年齡
                         for (let i = 0; i < yearsBeforeLoan; i++) {
                             assets = assets * (1 + returnRate) + savings * 12;
                         }
                         
-                        // 第二階段
+                        // 支付頭期款
+                        assets = assets - downPayment;
+                        
+                        // 第二階段：貸款期間
                         const savingsPhase2 = Math.max(0, savings - monthlyLoan);
                         for (let i = 0; i < yearsWithLoan; i++) {
                             assets = assets * (1 + returnRate) + savingsPhase2 * 12;
@@ -641,7 +703,7 @@
                     
                     requiredMonthlySavings = bestSavings;
                     
-                    // 計算第一階段結束時的資產
+                    // 計算第一階段結束時的資產（支付頭期款前）
                     assetsAtLoanStart = currentAssets;
                     for (let i = 0; i < yearsBeforeLoan; i++) {
                         assetsAtLoanStart = assetsAtLoanStart * (1 + returnRate) + requiredMonthlySavings * 12;
@@ -650,13 +712,17 @@
                     // 只有貸款前階段
                     const futureValueFactor = Math.pow(1 + returnRate, yearsBeforeLoan);
                     const annuityFactor = (futureValueFactor - 1) / returnRate;
-                    requiredMonthlySavings = (requiredFireAssets - currentAssets * futureValueFactor) / (12 * annuityFactor);
-                    assetsAtLoanStart = requiredFireAssets;
+                    // 考慮頭期款：最終需要的資產 = FIRE資產 + 頭期款
+                    const totalNeeded = requiredFireAssets + downPayment;
+                    requiredMonthlySavings = (totalNeeded - currentAssets * futureValueFactor) / (12 * annuityFactor);
+                    assetsAtLoanStart = totalNeeded;
                 } else {
-                    // 只有貸款後階段
+                    // 只有貸款後階段（當前就開始有貸款）
                     const futureValueFactor = Math.pow(1 + returnRate, yearsWithLoan);
                     const annuityFactor = (futureValueFactor - 1) / returnRate;
-                    const requiredMonthlySavingsAfterLoan = (requiredFireAssets - currentAssets * futureValueFactor) / (12 * annuityFactor);
+                    // 立即支付頭期款
+                    const startingAssets = currentAssets - downPayment;
+                    const requiredMonthlySavingsAfterLoan = (requiredFireAssets - startingAssets * futureValueFactor) / (12 * annuityFactor);
                     requiredMonthlySavings = requiredMonthlySavingsAfterLoan + monthlyLoan;
                     assetsAtLoanStart = currentAssets;
                 }
@@ -664,11 +730,19 @@
                 // 計算最終資產驗證
                 let finalAssets = currentAssets;
                 if (yearsBeforeLoan > 0) {
+                    // 第一階段累積
                     for (let i = 0; i < yearsBeforeLoan; i++) {
                         finalAssets = finalAssets * (1 + returnRate) + requiredMonthlySavings * 12;
                     }
+                    // 支付頭期款
+                    finalAssets = finalAssets - downPayment;
+                } else {
+                    // 立即支付頭期款
+                    finalAssets = finalAssets - downPayment;
                 }
+                
                 if (yearsWithLoan > 0) {
+                    // 第二階段累積
                     const savingsAfterLoan = requiredMonthlySavings - monthlyLoan;
                     for (let i = 0; i < yearsWithLoan; i++) {
                         finalAssets = finalAssets * (1 + returnRate) + savingsAfterLoan * 12;
@@ -703,11 +777,12 @@
                     availableExpenseAfterLoan,
                     postFireExpense,
                     loanEndAge,
-                    withdrawalRate
+                    withdrawalRate,
+                    downPayment
                 });
 
                 // 更新狀態訊息
-                updateStatusMessage(requiredMonthlySavings, monthlyIncome, savingsRate, availableExpense);
+                updateStatusMessage(requiredMonthlySavings, monthlyIncome, savingsRate, availableExpense, assetsAtLoanStart, downPayment);
 
             } catch (error) {
                 console.error('計算錯誤:', error);
@@ -732,6 +807,8 @@
             document.getElementById('phase1Savings').textContent = formatNumber(data.requiredMonthlySavings);
             document.getElementById('phase1Rate').textContent = Math.round(data.savingsRate) + '%';
             document.getElementById('phase1EndAssets').textContent = formatNumber(data.assetsAtLoanStart);
+            document.getElementById('phase1DownPayment').textContent = formatNumber(data.downPayment);
+            document.getElementById('phase1AfterDownPayment').textContent = formatNumber(data.assetsAtLoanStart - data.downPayment);
 
             // 第二階段
             document.getElementById('phase2Period').textContent = 
@@ -760,12 +837,14 @@
             document.getElementById('summaryTotalAssets').textContent = formatNumber(data.finalAssets);
         }
 
-        function updateStatusMessage(requiredSavings, monthlyIncome, savingsRate, availableExpense) {
+        function updateStatusMessage(requiredSavings, monthlyIncome, savingsRate, availableExpense, assetsAtLoanStart, downPayment) {
             const statusDiv = document.getElementById('statusMessage');
             let message = '';
 
             if (requiredSavings > monthlyIncome) {
                 message = '<div class="error">⚠️ 警告：所需儲蓄超過月收入！請調整目標年齡或增加收入。</div>';
+            } else if (assetsAtLoanStart < downPayment) {
+                message = '<div class="error">⚠️ 警告：到貸款開始年齡時資產不足以支付頭期款！請增加儲蓄或減少頭期款。</div>';
             } else if (savingsRate > 70) {
                 message = '<div class="warning">⚠️ 注意：儲蓄率超過70%，生活品質可能受影響。</div>';
             } else if (availableExpense < 50000) {
@@ -783,7 +862,7 @@
         function setupEventListeners() {
             const inputs = [
                 'currentAge', 'targetFireAge', 'currentAssets', 'monthlyIncome',
-                'postFireExpense', 'loanStartAge', 'monthlyLoan', 'loanYears',
+                'postFireExpense', 'loanStartAge', 'downPayment', 'monthlyLoan', 'loanYears',
                 'returnRate', 'withdrawalRate'
             ];
 
