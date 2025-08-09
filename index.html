@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>FIRE目標導向計算器</title>
+    <title>FIRE追蹤計算器</title>
     
     <!-- PWA設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="FIRE計算器">
+    <meta name="apple-mobile-web-app-title" content="FIRE追蹤器">
     
     <!-- iOS圖示 -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEw3MiA5NkgxMjBMOTYgNDhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNzIgMTIwSDEyMFYxNDRINzJWMTIwWiIgZmlsbD0id2hpdGUiLz4KPHN0eWxlPi5zdDB7ZmlsbDp1cmwoI2dyYWRpZW50MF9saW5lYXJfMV8xKX08L3N0eWxlPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMTkyIiB5Mj0iMTkyIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+">
     
     <meta name="theme-color" content="#667eea">
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRklSReebkeaomOWwjOWQkeerpeaVuOWZqCIsInNob3J0X25hbWUiOiJGSVJF6KiI566X5ZmoIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJzdGFydF91cmwiOiIuLyIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2RtbGxkMEp2ZUQwaU1DQXdJREU1TWlBeE9USWlJR1pwYkd3OUltNXZibVVpSUhodGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEhKbFkzUWdkMmxrZEdnOUlqRTVNaUlnYUdWcFoyaDBQU0k1TWlJZ2NIZzlJakl3SWlCbWFXeHNQU0oxY213b0kyZHlZV1JwWlc1ME1GOXNhVzVsWVhKZk1WOHhLU0l2UGp4d1lYUm9JR1E5SWswNU5pQTBPRXczTWlBNU5rZ3hNakJNT1RZZ05EaGFJaUJtYVd4c1BTSjNhR2wwWlNJdlBqeHdZWFJvSUdROUlrMDNNaUF4TWpCb01USTNWakUwTkVnM01sWXhNakJhSWlCbWFXeHNQU0ozYUdsMFpTSXZQand2YzNabkhqd3ZaR1ZtY3o0PSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    
     <style>
         * {
             margin: 0;
@@ -57,6 +58,39 @@
             opacity: 0.9;
         }
 
+        .tab-container {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #4ecdc4;
+            border-bottom: 3px solid #4ecdc4;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .main-content {
             display: grid;
             grid-template-columns: 450px 1fr;
@@ -86,7 +120,7 @@
             font-size: 0.95rem;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e9ecef;
@@ -96,7 +130,7 @@
             background: white;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #4ecdc4;
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
@@ -115,6 +149,35 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #4ecdc4;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3bb6b0;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
         }
 
         .target-card {
@@ -180,68 +243,41 @@
             color: #6c757d;
         }
 
-        .phases-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .phase {
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
             background: white;
-            padding: 20px;
             border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 5px solid #ff6b6b;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .phase:last-child {
-            margin-bottom: 0;
+        .record-table th {
+            background: #4ecdc4;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
         }
 
-        .phase-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .phase-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .phase-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
+        .record-table td {
+            padding: 12px 15px;
             border-bottom: 1px solid #e9ecef;
         }
 
-        .phase-item:last-child {
-            border-bottom: none;
+        .record-table tr:hover {
+            background: #f8f9fa;
         }
 
-        .phase-label {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .phase-value {
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .warning {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #ffc107;
-            margin-top: 20px;
-            font-size: 0.9rem;
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
 
         .success {
@@ -254,6 +290,16 @@
             font-size: 0.9rem;
         }
 
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
         .error {
             background: #f8d7da;
             color: #721c24;
@@ -262,33 +308,6 @@
             border-left: 4px solid #dc3545;
             margin-top: 20px;
             font-size: 0.9rem;
-        }
-
-        .summary-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .summary-table th {
-            background: #4ecdc4;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .summary-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .summary-table tr:hover {
-            background: #f8f9fa;
         }
 
         @media (max-width: 1024px) {
@@ -311,10 +330,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .phase-details {
-                grid-template-columns: 1fr;
-            }
-
             body {
                 padding: 10px;
             }
@@ -329,7 +344,7 @@
             
             .form-group input {
                 padding: 15px 16px;
-                font-size: 16px; /* 防止iOS縮放 */
+                font-size: 16px;
             }
             
             .target-main {
@@ -341,7 +356,6 @@
             }
         }
 
-        /* iOS特定優化 */
         @supports (-webkit-touch-callout: none) {
             .form-group input {
                 -webkit-appearance: none;
@@ -357,275 +371,294 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 FIRE目標導向計算器</h1>
-            <p>設定目標FIRE年齡，計算所需儲蓄與支出規劃</p>
+            <h1>🎯 FIRE追蹤計算器</h1>
+            <p>記錄實際投資，追蹤FIRE進度</p>
         </div>
 
-        <div class="main-content">
-            <div class="input-section">
-                <h2 class="section-title">📊 目標設定</h2>
-                
-                <div class="form-group">
-                    <label for="currentAge">目前年齡</label>
-                    <input type="number" id="currentAge" value="30" min="18" max="65">
-                    <div class="input-hint">歲</div>
+        <div class="tab-container">
+            <button class="tab-button active" onclick="showTab('planning')">📊 目標規劃</button>
+            <button class="tab-button" onclick="showTab('tracking')">📈 實際追蹤</button>
+            <button class="tab-button" onclick="showTab('analysis')">📋 進度分析</button>
+        </div>
+
+        <!-- 目標規劃頁籤 -->
+        <div id="planning" class="tab-content active">
+            <div class="main-content">
+                <div class="input-section">
+                    <h2 class="section-title">📊 目標設定</h2>
+                    
+                    <div class="form-group">
+                        <label for="currentAge">目前年齡</label>
+                        <input type="number" id="currentAge" value="30" min="18" max="65">
+                        <div class="input-hint">歲</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="targetFireAge">目標FIRE年齡</label>
+                        <input type="number" id="targetFireAge" value="47" min="30" max="80">
+                        <div class="input-hint">歲</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currentAssets">目前總資產</label>
+                        <input type="number" id="currentAssets" value="2416879" min="0">
+                        <div class="input-hint">新台幣（元）</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthlyIncome">月收入</label>
+                        <input type="number" id="monthlyIncome" value="300000" min="0">
+                        <div class="input-hint">新台幣（元）</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postFireExpense">FIRE後期望月支出</label>
+                        <input type="number" id="postFireExpense" value="200000" min="0">
+                        <div class="input-hint">新台幣（元）</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="returnRate">年投資報酬率</label>
+                        <input type="number" id="returnRate" value="7" min="0" max="20" step="0.1">
+                        <div class="input-hint">%</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="withdrawalRate">提領率</label>
+                        <input type="number" id="withdrawalRate" value="4" min="2" max="8" step="0.1">
+                        <div class="input-hint">%</div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="targetFireAge">目標FIRE年齡</label>
-                    <input type="number" id="targetFireAge" value="47" min="30" max="80">
-                    <div class="input-hint">歲</div>
-                </div>
+                <div class="results-section">
+                    <div class="target-card">
+                        <div class="target-main" id="yearsToTarget">17年</div>
+                        <div class="target-label">達成FIRE目標</div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="currentAssets">目前總資產</label>
-                    <input type="number" id="currentAssets" value="2416879" min="0">
-                    <div class="input-hint">新台幣（元）</div>
-                </div>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-title">需要月儲蓄</div>
+                            <div class="result-value" id="requiredSavings">17.5萬</div>
+                            <div class="result-hint">達成目標所需</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">需要FIRE資產</div>
+                            <div class="result-value" id="requiredAssets">6,000萬</div>
+                            <div class="result-hint">4%提領法則</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">儲蓄率</div>
+                            <div class="result-value" id="savingsRate">58%</div>
+                            <div class="result-hint">收入比例</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">可支配收入</div>
+                            <div class="result-value" id="availableIncome">12.5萬</div>
+                            <div class="result-hint">扣除儲蓄後</div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="monthlyIncome">月收入</label>
-                    <input type="number" id="monthlyIncome" value="300000" min="0">
-                    <div class="input-hint">新台幣（元）</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="postFireExpense">FIRE後期望月支出</label>
-                    <input type="number" id="postFireExpense" value="200000" min="0">
-                    <div class="input-hint">新台幣（元）</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="loanStartAge">貸款開始年齡</label>
-                    <input type="number" id="loanStartAge" value="37" min="25" max="70">
-                    <div class="input-hint">歲</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="downPayment">頭期款</label>
-                    <input type="number" id="downPayment" value="3000000" min="0">
-                    <div class="input-hint">新台幣（元）- 在貸款開始年齡時支付</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="monthlyLoan">月貸款金額</label>
-                    <input type="number" id="monthlyLoan" value="84431" min="0">
-                    <div class="input-hint">新台幣（元）</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="loanYears">貸款年限</label>
-                    <input type="number" id="loanYears" value="30" min="0" max="50">
-                    <div class="input-hint">年</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="returnRate">年投資報酬率</label>
-                    <input type="number" id="returnRate" value="7" min="0" max="20" step="0.1">
-                    <div class="input-hint">%</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="withdrawalRate">提領率</label>
-                    <input type="number" id="withdrawalRate" value="4" min="2" max="8" step="0.1">
-                    <div class="input-hint">%</div>
+                    <div id="planningMessage"></div>
                 </div>
             </div>
+        </div>
 
-            <div class="results-section">
+        <!-- 實際追蹤頁籤 -->
+        <div id="tracking" class="tab-content">
+            <div class="main-content">
+                <div class="input-section">
+                    <h2 class="section-title">📈 月度記錄</h2>
+                    
+                    <div class="form-group">
+                        <label for="recordYear">年份</label>
+                        <input type="number" id="recordYear" value="2024" min="2020" max="2050">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recordMonth">月份</label>
+                        <select id="recordMonth">
+                            <option value="1">1月</option>
+                            <option value="2">2月</option>
+                            <option value="3">3月</option>
+                            <option value="4">4月</option>
+                            <option value="5">5月</option>
+                            <option value="6">6月</option>
+                            <option value="7">7月</option>
+                            <option value="8" selected>8月</option>
+                            <option value="9">9月</option>
+                            <option value="10">10月</option>
+                            <option value="11">11月</option>
+                            <option value="12">12月</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthlyInvestment">本月投資金額</label>
+                        <input type="number" id="monthlyInvestment" min="0" placeholder="輸入本月投資金額">
+                        <div class="input-hint">新台幣（元）</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthlyAssets">月底總資產</label>
+                        <input type="number" id="monthlyAssets" min="0" placeholder="輸入月底總資產">
+                        <div class="input-hint">新台幣（元）- 包含投資收益</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialEvent">特殊事件</label>
+                        <input type="text" id="specialEvent" placeholder="如：支付頭期款、獎金入帳等">
+                        <div class="input-hint">選填</div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="addRecord()">新增記錄</button>
+                </div>
+
+                <div class="results-section">
+                    <div class="target-card">
+                        <div class="target-main" id="currentProgress">0%</div>
+                        <div class="target-label">FIRE進度</div>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-title">最新總資產</div>
+                            <div class="result-value" id="latestAssets">-</div>
+                            <div class="result-hint">最近一次記錄</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">本年累計投資</div>
+                            <div class="result-value" id="yearlyInvestment">-</div>
+                            <div class="result-hint">今年總投資額</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">月平均投資</div>
+                            <div class="result-value" id="avgMonthlyInvestment">-</div>
+                            <div class="result-hint">過去12個月</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-title">距離目標</div>
+                            <div class="result-value" id="remainingAmount">-</div>
+                            <div class="result-hint">還需累積</div>
+                        </div>
+                    </div>
+
+                    <div id="trackingMessage"></div>
+
+                    <h3 style="margin-top: 30px; color: #2c3e50;">📝 投資記錄</h3>
+                    <table class="record-table" id="recordsTable">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>投資金額</th>
+                                <th>總資產</th>
+                                <th>特殊事件</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsBody">
+                            <!-- 記錄會動態插入這裡 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 進度分析頁籤 -->
+        <div id="analysis" class="tab-content">
+            <div class="results-section" style="padding: 40px;">
                 <div class="target-card">
-                    <div class="target-main" id="yearsToTarget">17</div>
-                    <div class="target-label">年後達成FIRE目標</div>
+                    <div class="target-main" id="progressStatus">追蹤中</div>
+                    <div class="target-label">FIRE狀態</div>
                 </div>
 
                 <div class="results-grid">
                     <div class="result-card">
-                        <div class="result-title">需要月儲蓄</div>
-                        <div class="result-value" id="requiredSavings">17.5萬</div>
-                        <div class="result-hint">達成目標所需</div>
+                        <div class="result-title">實際 vs 目標儲蓄</div>
+                        <div class="result-value" id="savingsComparison">-</div>
+                        <div class="result-hint">每月投資比較</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-title">需要FIRE資產</div>
-                        <div class="result-value" id="requiredAssets">8,533萬</div>
-                        <div class="result-hint">4%提領法則</div>
+                        <div class="result-title">預計達成時間</div>
+                        <div class="result-value" id="projectedFireTime">-</div>
+                        <div class="result-hint">依目前進度</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-title">儲蓄率</div>
-                        <div class="result-value" id="savingsRate">58%</div>
-                        <div class="result-hint">收入比例</div>
+                        <div class="result-title">資產成長率</div>
+                        <div class="result-value" id="assetGrowthRate">-</div>
+                        <div class="result-hint">年化報酬率</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-title">可支配收入</div>
-                        <div class="result-value" id="availableIncome">12.5萬</div>
-                        <div class="result-hint">扣除儲蓄後</div>
+                        <div class="result-title">超前/落後</div>
+                        <div class="result-value" id="progressDifference">-</div>
+                        <div class="result-hint">相對目標</div>
                     </div>
                 </div>
 
-                <div id="statusMessage"></div>
+                <div id="analysisMessage"></div>
 
-                <div class="phases-section">
-                    <h3 style="margin-bottom: 20px; color: #2c3e50;">📅 分階段財務規劃</h3>
-                    
-                    <div class="phase">
-                        <div class="phase-title">第一階段：貸款前累積期</div>
-                        <div class="phase-details">
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">期間</span>
-                                    <span class="phase-value" id="phase1Period">30-37歲 (7年)</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月收入</span>
-                                    <span class="phase-value" id="phase1Income">30萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">可用支出</span>
-                                    <span class="phase-value" id="phase1Expense">12.5萬</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月儲蓄</span>
-                                    <span class="phase-value" id="phase1Savings">17.5萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">儲蓄率</span>
-                                    <span class="phase-value" id="phase1Rate">58%</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">期末資產</span>
-                                    <span class="phase-value" id="phase1EndAssets">2,205萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">頭期款支出</span>
-                                    <span class="phase-value" id="phase1DownPayment">300萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">支付後資產</span>
-                                    <span class="phase-value" id="phase1AfterDownPayment">1,905萬</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="phase">
-                        <div class="phase-title">第二階段：有貸款期間</div>
-                        <div class="phase-details">
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">期間</span>
-                                    <span class="phase-value" id="phase2Period">37-47歲 (10年)</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月收入</span>
-                                    <span class="phase-value" id="phase2Income">30萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月貸款</span>
-                                    <span class="phase-value" id="phase2Loan">8.4萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">可用支出</span>
-                                    <span class="phase-value" id="phase2Expense">12.5萬</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月總支出</span>
-                                    <span class="phase-value" id="phase2TotalExpense">20.9萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月儲蓄</span>
-                                    <span class="phase-value" id="phase2Savings">9.1萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">儲蓄率</span>
-                                    <span class="phase-value" id="phase2Rate">30%</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">FIRE資產</span>
-                                    <span class="phase-value" id="phase2EndAssets">4,266萬</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="phase">
-                        <div class="phase-title">第三階段：FIRE後期間</div>
-                        <div class="phase-details">
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">開始年齡</span>
-                                    <span class="phase-value" id="phase3StartAge">47歲</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月生活費</span>
-                                    <span class="phase-value" id="phase3LifeExpense">20萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月貸款</span>
-                                    <span class="phase-value" id="phase3Loan">8.4萬</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="phase-item">
-                                    <span class="phase-label">月總支出</span>
-                                    <span class="phase-value" id="phase3TotalExpense">28.4萬</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">提領率</span>
-                                    <span class="phase-value" id="phase3WithdrawalRate">4.0%</span>
-                                </div>
-                                <div class="phase-item">
-                                    <span class="phase-label">貸款還清</span>
-                                    <span class="phase-value" id="loanEndAge">67歲</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <h3 style="margin-top: 30px; color: #2c3e50;">📊 趨勢分析</h3>
+                <div id="trendAnalysis" style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin-top: 20px;">
+                    <!-- 趨勢分析會顯示在這裡 -->
                 </div>
-
-                <table class="summary-table">
-                    <thead>
-                        <tr>
-                            <th>項目</th>
-                            <th>金額/比率</th>
-                            <th>說明</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>目標FIRE年齡</td>
-                            <td id="summaryFireAge">47歲</td>
-                            <td>你設定的退休目標</td>
-                        </tr>
-                        <tr>
-                            <td>需要月儲蓄</td>
-                            <td id="summaryMonthlySavings">17.5萬</td>
-                            <td>貸款前期間</td>
-                        </tr>
-                        <tr>
-                            <td>可支配月支出</td>
-                            <td id="summaryMonthlyExpense">12.5萬</td>
-                            <td>扣除儲蓄和貸款</td>
-                        </tr>
-                        <tr>
-                            <td>有貸款後月儲蓄</td>
-                            <td id="summaryLoanPeriodSavings">9.1萬</td>
-                            <td>37歲後儲蓄能力</td>
-                        </tr>
-                        <tr>
-                            <td>FIRE時總資產</td>
-                            <td id="summaryTotalAssets">4,266萬</td>
-                            <td>退休時的資產</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 
     <script>
+        // 全域變數
+        let records = [];
+        let fireTarget = 60000000; // 預設FIRE目標
+        let monthlyTarget = 175000; // 預設月儲蓄目標
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecords();
+            setupEventListeners();
+            calculateFirePlan();
+            updateTrackingDisplay();
+            updateAnalysis();
+            
+            // 設定預設日期為當前月份
+            const now = new Date();
+            document.getElementById('recordYear').value = now.getFullYear();
+            document.getElementById('recordMonth').value = now.getMonth() + 1;
+        });
+
+        function setupEventListeners() {
+            const inputs = ['currentAge', 'targetFireAge', 'currentAssets', 'monthlyIncome', 'postFireExpense', 'returnRate', 'withdrawalRate'];
+            inputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculateFirePlan);
+                    element.addEventListener('change', calculateFirePlan);
+                }
+            });
+        }
+
+        function showTab(tabName) {
+            // 隱藏所有頁籤內容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的active類別
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 顯示選中的頁籤
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // 更新對應的顯示
+            if (tabName === 'tracking') {
+                updateTrackingDisplay();
+            } else if (tabName === 'analysis') {
+                updateAnalysis();
+            }
+        }
+
         function formatNumber(num) {
             if (num >= 100000000) {
                 return (num / 100000000).toFixed(1) + '億';
@@ -638,248 +671,365 @@
             }
         }
 
-        function calculateTargetPlan() {
+        function calculateFirePlan() {
             try {
-                // 取得輸入值
                 const currentAge = parseInt(document.getElementById('currentAge').value) || 30;
                 const targetFireAge = parseInt(document.getElementById('targetFireAge').value) || 47;
                 const currentAssets = parseInt(document.getElementById('currentAssets').value) || 0;
                 const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value) || 0;
                 const postFireExpense = parseInt(document.getElementById('postFireExpense').value) || 0;
-                const loanStartAge = parseInt(document.getElementById('loanStartAge').value) || 37;
-                const downPayment = parseInt(document.getElementById('downPayment').value) || 0;
-                const monthlyLoan = parseInt(document.getElementById('monthlyLoan').value) || 0;
-                const loanYears = parseInt(document.getElementById('loanYears').value) || 30;
                 const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.07;
                 const withdrawalRate = parseFloat(document.getElementById('withdrawalRate').value) / 100 || 0.04;
 
-                // 計算基本數據
-                const yearsToFire = targetFireAge - currentAge;
-                const yearsBeforeLoan = Math.max(0, loanStartAge - currentAge);
-                const yearsWithLoan = Math.max(0, targetFireAge - loanStartAge);
-                const loanEndAge = loanStartAge + loanYears;
-
                 // 計算FIRE所需資產
-                let monthlyFireExpense = postFireExpense;
-                if (targetFireAge < loanEndAge) {
-                    monthlyFireExpense += monthlyLoan;
-                }
-                const annualFireExpense = monthlyFireExpense * 12;
+                const annualFireExpense = postFireExpense * 12;
                 const requiredFireAssets = annualFireExpense / withdrawalRate;
+                fireTarget = requiredFireAssets; // 更新全域變數
 
-                // 計算需要的月儲蓄
-                let requiredMonthlySavings;
-                let assetsAtLoanStart;
-
-                if (yearsBeforeLoan > 0 && yearsWithLoan > 0) {
-                    // 兩階段：貸款前 + 貸款後
-                    // 使用迭代方法找出最佳解
-                    let bestSavings = 0;
-                    let minError = Infinity;
-
-                    for (let savings = 10000; savings <= monthlyIncome; savings += 5000) {
-                        let assets = currentAssets;
-                        
-                        // 第一階段：累積到貸款開始年齡
-                        for (let i = 0; i < yearsBeforeLoan; i++) {
-                            assets = assets * (1 + returnRate) + savings * 12;
-                        }
-                        
-                        // 支付頭期款
-                        assets = assets - downPayment;
-                        
-                        // 第二階段：貸款期間
-                        const savingsPhase2 = Math.max(0, savings - monthlyLoan);
-                        for (let i = 0; i < yearsWithLoan; i++) {
-                            assets = assets * (1 + returnRate) + savingsPhase2 * 12;
-                        }
-                        
-                        const error = Math.abs(assets - requiredFireAssets);
-                        if (error < minError) {
-                            minError = error;
-                            bestSavings = savings;
-                        }
-                    }
-                    
-                    requiredMonthlySavings = bestSavings;
-                    
-                    // 計算第一階段結束時的資產（支付頭期款前）
-                    assetsAtLoanStart = currentAssets;
-                    for (let i = 0; i < yearsBeforeLoan; i++) {
-                        assetsAtLoanStart = assetsAtLoanStart * (1 + returnRate) + requiredMonthlySavings * 12;
-                    }
-                } else if (yearsBeforeLoan > 0) {
-                    // 只有貸款前階段
-                    const futureValueFactor = Math.pow(1 + returnRate, yearsBeforeLoan);
-                    const annuityFactor = (futureValueFactor - 1) / returnRate;
-                    // 考慮頭期款：最終需要的資產 = FIRE資產 + 頭期款
-                    const totalNeeded = requiredFireAssets + downPayment;
-                    requiredMonthlySavings = (totalNeeded - currentAssets * futureValueFactor) / (12 * annuityFactor);
-                    assetsAtLoanStart = totalNeeded;
-                } else {
-                    // 只有貸款後階段（當前就開始有貸款）
-                    const futureValueFactor = Math.pow(1 + returnRate, yearsWithLoan);
-                    const annuityFactor = (futureValueFactor - 1) / returnRate;
-                    // 立即支付頭期款
-                    const startingAssets = currentAssets - downPayment;
-                    const requiredMonthlySavingsAfterLoan = (requiredFireAssets - startingAssets * futureValueFactor) / (12 * annuityFactor);
-                    requiredMonthlySavings = requiredMonthlySavingsAfterLoan + monthlyLoan;
-                    assetsAtLoanStart = currentAssets;
-                }
-
-                // 計算最終資產驗證
-                let finalAssets = currentAssets;
-                if (yearsBeforeLoan > 0) {
-                    // 第一階段累積
-                    for (let i = 0; i < yearsBeforeLoan; i++) {
-                        finalAssets = finalAssets * (1 + returnRate) + requiredMonthlySavings * 12;
-                    }
-                    // 支付頭期款
-                    finalAssets = finalAssets - downPayment;
-                } else {
-                    // 立即支付頭期款
-                    finalAssets = finalAssets - downPayment;
-                }
+                // 計算時間和儲蓄需求
+                const yearsToFire = targetFireAge - currentAge;
+                const monthsToFire = yearsToFire * 12;
                 
-                if (yearsWithLoan > 0) {
-                    // 第二階段累積
-                    const savingsAfterLoan = requiredMonthlySavings - monthlyLoan;
-                    for (let i = 0; i < yearsWithLoan; i++) {
-                        finalAssets = finalAssets * (1 + returnRate) + savingsAfterLoan * 12;
-                    }
-                }
+                // 使用複利公式計算需要的月儲蓄
+                const monthlyReturnRate = Math.pow(1 + returnRate, 1/12) - 1;
+                const futureValueFactor = Math.pow(1 + monthlyReturnRate, monthsToFire);
+                const annuityFactor = (futureValueFactor - 1) / monthlyReturnRate;
+                
+                const requiredMonthlySavings = Math.max(0, 
+                    (requiredFireAssets - currentAssets * futureValueFactor) / annuityFactor);
+                
+                monthlyTarget = requiredMonthlySavings; // 更新全域變數
 
                 // 計算各項指標
                 const savingsRate = (requiredMonthlySavings / monthlyIncome) * 100;
                 const availableExpense = monthlyIncome - requiredMonthlySavings;
-                const savingsAfterLoan = requiredMonthlySavings - monthlyLoan;
-                const savingsRateAfterLoan = (savingsAfterLoan / monthlyIncome) * 100;
-                const availableExpenseAfterLoan = monthlyIncome - savingsAfterLoan - monthlyLoan;
 
                 // 更新顯示
-                updateResults({
-                    yearsToFire,
-                    requiredMonthlySavings,
-                    requiredFireAssets,
-                    savingsRate,
-                    availableExpense,
-                    currentAge,
-                    targetFireAge,
-                    loanStartAge,
-                    monthlyIncome,
-                    monthlyLoan,
-                    yearsBeforeLoan,
-                    yearsWithLoan,
-                    assetsAtLoanStart,
-                    finalAssets,
-                    savingsAfterLoan,
-                    savingsRateAfterLoan,
-                    availableExpenseAfterLoan,
-                    postFireExpense,
-                    loanEndAge,
-                    withdrawalRate,
-                    downPayment
-                });
+                document.getElementById('yearsToTarget').textContent = `${yearsToFire}年`;
+                document.getElementById('requiredSavings').textContent = formatNumber(requiredMonthlySavings);
+                document.getElementById('requiredAssets').textContent = formatNumber(requiredFireAssets);
+                document.getElementById('savingsRate').textContent = Math.round(savingsRate) + '%';
+                document.getElementById('availableIncome').textContent = formatNumber(availableExpense);
 
                 // 更新狀態訊息
-                updateStatusMessage(requiredMonthlySavings, monthlyIncome, savingsRate, availableExpense, assetsAtLoanStart, downPayment);
+                updatePlanningMessage(requiredMonthlySavings, monthlyIncome, savingsRate);
 
             } catch (error) {
                 console.error('計算錯誤:', error);
-                document.getElementById('statusMessage').innerHTML = 
-                    '<div class="error">計算發生錯誤，請檢查輸入數值</div>';
             }
         }
 
-        function updateResults(data) {
-            // 主要結果
-            document.getElementById('yearsToTarget').textContent = data.yearsToFire;
-            document.getElementById('requiredSavings').textContent = formatNumber(data.requiredMonthlySavings);
-            document.getElementById('requiredAssets').textContent = formatNumber(data.requiredFireAssets);
-            document.getElementById('savingsRate').textContent = Math.round(data.savingsRate) + '%';
-            document.getElementById('availableIncome').textContent = formatNumber(data.availableExpense);
-
-            // 第一階段
-            document.getElementById('phase1Period').textContent = 
-                `${data.currentAge}-${data.loanStartAge}歲 (${data.yearsBeforeLoan}年)`;
-            document.getElementById('phase1Income').textContent = formatNumber(data.monthlyIncome);
-            document.getElementById('phase1Expense').textContent = formatNumber(data.availableExpense);
-            document.getElementById('phase1Savings').textContent = formatNumber(data.requiredMonthlySavings);
-            document.getElementById('phase1Rate').textContent = Math.round(data.savingsRate) + '%';
-            document.getElementById('phase1EndAssets').textContent = formatNumber(data.assetsAtLoanStart);
-            document.getElementById('phase1DownPayment').textContent = formatNumber(data.downPayment);
-            document.getElementById('phase1AfterDownPayment').textContent = formatNumber(data.assetsAtLoanStart - data.downPayment);
-
-            // 第二階段
-            document.getElementById('phase2Period').textContent = 
-                `${data.loanStartAge}-${data.targetFireAge}歲 (${data.yearsWithLoan}年)`;
-            document.getElementById('phase2Income').textContent = formatNumber(data.monthlyIncome);
-            document.getElementById('phase2Loan').textContent = formatNumber(data.monthlyLoan);
-            document.getElementById('phase2Expense').textContent = formatNumber(data.availableExpenseAfterLoan);
-            document.getElementById('phase2TotalExpense').textContent = formatNumber(data.availableExpenseAfterLoan + data.monthlyLoan);
-            document.getElementById('phase2Savings').textContent = formatNumber(data.savingsAfterLoan);
-            document.getElementById('phase2Rate').textContent = Math.round(data.savingsRateAfterLoan) + '%';
-            document.getElementById('phase2EndAssets').textContent = formatNumber(data.finalAssets);
-
-            // 第三階段
-            document.getElementById('phase3StartAge').textContent = data.targetFireAge + '歲';
-            document.getElementById('phase3LifeExpense').textContent = formatNumber(data.postFireExpense);
-            document.getElementById('phase3Loan').textContent = formatNumber(data.monthlyLoan);
-            document.getElementById('phase3TotalExpense').textContent = formatNumber(data.postFireExpense + data.monthlyLoan);
-            document.getElementById('phase3WithdrawalRate').textContent = (data.withdrawalRate * 100).toFixed(1) + '%';
-            document.getElementById('loanEndAge').textContent = data.loanEndAge + '歲';
-
-            // 摘要表格
-            document.getElementById('summaryFireAge').textContent = data.targetFireAge + '歲';
-            document.getElementById('summaryMonthlySavings').textContent = formatNumber(data.requiredMonthlySavings);
-            document.getElementById('summaryMonthlyExpense').textContent = formatNumber(data.availableExpense);
-            document.getElementById('summaryLoanPeriodSavings').textContent = formatNumber(data.savingsAfterLoan);
-            document.getElementById('summaryTotalAssets').textContent = formatNumber(data.finalAssets);
-        }
-
-        function updateStatusMessage(requiredSavings, monthlyIncome, savingsRate, availableExpense, assetsAtLoanStart, downPayment) {
-            const statusDiv = document.getElementById('statusMessage');
+        function updatePlanningMessage(requiredSavings, monthlyIncome, savingsRate) {
+            const messageDiv = document.getElementById('planningMessage');
             let message = '';
 
             if (requiredSavings > monthlyIncome) {
                 message = '<div class="error">⚠️ 警告：所需儲蓄超過月收入！請調整目標年齡或增加收入。</div>';
-            } else if (assetsAtLoanStart < downPayment) {
-                message = '<div class="error">⚠️ 警告：到貸款開始年齡時資產不足以支付頭期款！請增加儲蓄或減少頭期款。</div>';
             } else if (savingsRate > 70) {
                 message = '<div class="warning">⚠️ 注意：儲蓄率超過70%，生活品質可能受影響。</div>';
-            } else if (availableExpense < 50000) {
-                message = '<div class="warning">⚠️ 注意：可支配支出較低，請確認是否可行。</div>';
             } else if (savingsRate >= 50) {
                 message = '<div class="warning">💪 高儲蓄率計畫！需要很強的自制力。</div>';
             } else {
                 message = '<div class="success">✅ 財務規劃看起來合理可行！</div>';
             }
 
-            statusDiv.innerHTML = message;
+            messageDiv.innerHTML = message;
         }
 
-        // 添加事件監聽器
-        function setupEventListeners() {
-            const inputs = [
-                'currentAge', 'targetFireAge', 'currentAssets', 'monthlyIncome',
-                'postFireExpense', 'loanStartAge', 'downPayment', 'monthlyLoan', 'loanYears',
-                'returnRate', 'withdrawalRate'
-            ];
+        function addRecord() {
+            const year = parseInt(document.getElementById('recordYear').value);
+            const month = parseInt(document.getElementById('recordMonth').value);
+            const investment = parseInt(document.getElementById('monthlyInvestment').value) || 0;
+            const assets = parseInt(document.getElementById('monthlyAssets').value) || 0;
+            const event = document.getElementById('specialEvent').value.trim();
 
-            inputs.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', calculateTargetPlan);
-                    element.addEventListener('change', calculateTargetPlan);
+            if (!assets) {
+                alert('請輸入月底總資產');
+                return;
+            }
+
+            // 檢查是否已有相同年月的記錄
+            const existingIndex = records.findIndex(r => r.year === year && r.month === month);
+            
+            if (existingIndex !== -1) {
+                if (confirm('該月份已有記錄，是否要覆蓋？')) {
+                    records[existingIndex] = { year, month, investment, assets, event, date: new Date() };
                 }
+            } else {
+                records.push({ year, month, investment, assets, event, date: new Date() });
+            }
+
+            // 按日期排序
+            records.sort((a, b) => {
+                if (a.year !== b.year) return a.year - b.year;
+                return a.month - b.month;
+            });
+
+            saveRecords();
+            updateRecordsDisplay();
+            updateTrackingDisplay();
+            updateAnalysis();
+
+            // 清空輸入欄位
+            document.getElementById('monthlyInvestment').value = '';
+            document.getElementById('monthlyAssets').value = '';
+            document.getElementById('specialEvent').value = '';
+
+            // 自動跳到下個月
+            if (month === 12) {
+                document.getElementById('recordYear').value = year + 1;
+                document.getElementById('recordMonth').value = 1;
+            } else {
+                document.getElementById('recordMonth').value = month + 1;
+            }
+        }
+
+        function deleteRecord(index) {
+            if (confirm('確定要刪除這筆記錄嗎？')) {
+                records.splice(index, 1);
+                saveRecords();
+                updateRecordsDisplay();
+                updateTrackingDisplay();
+                updateAnalysis();
+            }
+        }
+
+        function updateRecordsDisplay() {
+            const tbody = document.getElementById('recordsBody');
+            tbody.innerHTML = '';
+
+            records.forEach((record, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${record.year}年${record.month}月</td>
+                    <td style="font-weight: bold; color: #4ecdc4;">${formatNumber(record.investment)}</td>
+                    <td style="font-weight: bold; color: #2c3e50;">${formatNumber(record.assets)}</td>
+                    <td>${record.event || '-'}</td>
+                    <td><button class="delete-btn" onclick="deleteRecord(${index})">刪除</button></td>
+                `;
             });
         }
 
-        // 頁面載入時初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            calculateTargetPlan(); // 初始計算
-        });
+        function updateTrackingDisplay() {
+            if (records.length === 0) {
+                document.getElementById('currentProgress').textContent = '0%';
+                document.getElementById('latestAssets').textContent = '-';
+                document.getElementById('yearlyInvestment').textContent = '-';
+                document.getElementById('avgMonthlyInvestment').textContent = '-';
+                document.getElementById('remainingAmount').textContent = '-';
+                return;
+            }
+
+            // 最新資產
+            const latestRecord = records[records.length - 1];
+            const latestAssets = latestRecord.assets;
+            
+            // FIRE進度
+            const progress = Math.min((latestAssets / fireTarget) * 100, 100);
+            document.getElementById('currentProgress').textContent = progress.toFixed(1) + '%';
+            document.getElementById('latestAssets').textContent = formatNumber(latestAssets);
+
+            // 本年累計投資
+            const currentYear = new Date().getFullYear();
+            const yearlyInvestment = records
+                .filter(r => r.year === currentYear)
+                .reduce((sum, r) => sum + r.investment, 0);
+            document.getElementById('yearlyInvestment').textContent = formatNumber(yearlyInvestment);
+
+            // 過去12個月平均投資
+            const last12Months = records.slice(-12);
+            const avgInvestment = last12Months.length > 0 ? 
+                last12Months.reduce((sum, r) => sum + r.investment, 0) / last12Months.length : 0;
+            document.getElementById('avgMonthlyInvestment').textContent = formatNumber(avgInvestment);
+
+            // 距離目標
+            const remainingAmount = Math.max(0, fireTarget - latestAssets);
+            document.getElementById('remainingAmount').textContent = formatNumber(remainingAmount);
+
+            // 更新追蹤訊息
+            updateTrackingMessage(avgInvestment, progress);
+        }
+
+        function updateTrackingMessage(avgInvestment, progress) {
+            const messageDiv = document.getElementById('trackingMessage');
+            let message = '';
+
+            if (progress >= 100) {
+                message = '<div class="success">🎉 恭喜！您已經達成FIRE目標！</div>';
+            } else if (avgInvestment >= monthlyTarget) {
+                message = '<div class="success">👍 投資進度良好，持續保持！</div>';
+            } else if (avgInvestment >= monthlyTarget * 0.8) {
+                message = '<div class="warning">📈 投資稍微落後目標，可以再加把勁！</div>';
+            } else {
+                message = '<div class="error">🚨 投資明顯落後目標，需要調整策略！</div>';
+            }
+
+            messageDiv.innerHTML = message;
+        }
+
+        function updateAnalysis() {
+            if (records.length < 2) {
+                document.getElementById('progressStatus').textContent = '資料不足';
+                document.getElementById('savingsComparison').textContent = '-';
+                document.getElementById('projectedFireTime').textContent = '-';
+                document.getElementById('assetGrowthRate').textContent = '-';
+                document.getElementById('progressDifference').textContent = '-';
+                document.getElementById('analysisMessage').innerHTML = 
+                    '<div class="warning">需要至少2個月的記錄才能進行分析</div>';
+                return;
+            }
+
+            const latestRecord = records[records.length - 1];
+            const firstRecord = records[0];
+            
+            // 計算月數差
+            const monthsDiff = (latestRecord.year - firstRecord.year) * 12 + (latestRecord.month - firstRecord.month);
+            
+            if (monthsDiff <= 0) {
+                return;
+            }
+
+            // 實際 vs 目標儲蓄比較
+            const avgActualInvestment = records.reduce((sum, r) => sum + r.investment, 0) / records.length;
+            const comparison = ((avgActualInvestment / monthlyTarget) * 100).toFixed(0);
+            document.getElementById('savingsComparison').textContent = comparison + '%';
+
+            // 資產成長率（年化）
+            const totalReturn = (latestRecord.assets - firstRecord.assets) / firstRecord.assets;
+            const annualizedReturn = (Math.pow(1 + totalReturn, 12 / monthsDiff) - 1) * 100;
+            document.getElementById('assetGrowthRate').textContent = annualizedReturn.toFixed(1) + '%';
+
+            // 預計達成時間
+            if (avgActualInvestment > 0) {
+                const remainingAmount = fireTarget - latestRecord.assets;
+                const monthsToTarget = remainingAmount / avgActualInvestment;
+                const yearsToTarget = (monthsToTarget / 12).toFixed(1);
+                document.getElementById('projectedFireTime').textContent = yearsToTarget + '年';
+            }
+
+            // 超前/落後分析
+            const expectedAssets = calculateExpectedAssets();
+            const difference = latestRecord.assets - expectedAssets;
+            const differencePercent = (difference / expectedAssets * 100).toFixed(1);
+            document.getElementById('progressDifference').textContent = 
+                (difference >= 0 ? '+' : '') + differencePercent + '%';
+
+            // 狀態更新
+            if (latestRecord.assets >= fireTarget) {
+                document.getElementById('progressStatus').textContent = 'FIRE達成！';
+            } else if (difference >= 0) {
+                document.getElementById('progressStatus').textContent = '超前進度';
+            } else {
+                document.getElementById('progressStatus').textContent = '落後進度';
+            }
+
+            // 更新分析訊息
+            updateAnalysisMessage(comparison, differencePercent, annualizedReturn);
+            updateTrendAnalysis();
+        }
+
+        function calculateExpectedAssets() {
+            // 根據原始計畫計算預期資產
+            const currentAssets = parseInt(document.getElementById('currentAssets').value) || 0;
+            const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.07;
+            const monthlyReturnRate = Math.pow(1 + returnRate, 1/12) - 1;
+            
+            const latestRecord = records[records.length - 1];
+            const currentAge = parseInt(document.getElementById('currentAge').value) || 30;
+            const monthsElapsed = (latestRecord.year - 2024) * 12 + latestRecord.month - 8; // 假設從2024年8月開始
+            
+            let expectedAssets = currentAssets;
+            for (let i = 0; i < monthsElapsed; i++) {
+                expectedAssets = expectedAssets * (1 + monthlyReturnRate) + monthlyTarget;
+            }
+            
+            return expectedAssets;
+        }
+
+        function updateAnalysisMessage(comparison, differencePercent, annualizedReturn) {
+            const messageDiv = document.getElementById('analysisMessage');
+            let message = '';
+
+            if (parseFloat(differencePercent) >= 10) {
+                message = '<div class="success">🚀 表現優異！資產成長超越預期，可考慮提早FIRE！</div>';
+            } else if (parseFloat(differencePercent) >= 0) {
+                message = '<div class="success">✅ 進度良好，按此步調可如期達成目標！</div>';
+            } else if (parseFloat(differencePercent) >= -10) {
+                message = '<div class="warning">⚠️ 略微落後，建議檢視投資策略或增加投入。</div>';
+            } else {
+                message = '<div class="error">🚨 明顯落後預期，建議重新評估目標或大幅調整策略。</div>';
+            }
+
+            messageDiv.innerHTML = message;
+        }
+
+        function updateTrendAnalysis() {
+            const trendDiv = document.getElementById('trendAnalysis');
+            
+            if (records.length < 3) {
+                trendDiv.innerHTML = '<p>需要更多資料進行趨勢分析</p>';
+                return;
+            }
+
+            // 計算最近3個月的趨勢
+            const recent3Months = records.slice(-3);
+            const investmentTrend = recent3Months.map(r => r.investment);
+            const assetsTrend = recent3Months.map(r => r.assets);
+
+            // 計算趨勢方向
+            const investmentSlope = (investmentTrend[2] - investmentTrend[0]) / 2;
+            const assetsGrowth = ((assetsTrend[2] - assetsTrend[0]) / assetsTrend[0]) * 100;
+
+            let trendHTML = '<h4>最近趨勢分析</h4>';
+            
+            if (investmentSlope > 5000) {
+                trendHTML += '<p>📈 <strong>投資金額呈上升趨勢</strong> - 投資力度逐漸加強</p>';
+            } else if (investmentSlope < -5000) {
+                trendHTML += '<p>📉 <strong>投資金額呈下降趨勢</strong> - 注意維持投資紀律</p>';
+            } else {
+                trendHTML += '<p>➡️ <strong>投資金額保持穩定</strong> - 維持良好的投資習慣</p>';
+            }
+
+            if (assetsGrowth > 5) {
+                trendHTML += '<p>🎯 <strong>資產成長強勁</strong> - 投資效果顯著</p>';
+            } else if (assetsGrowth > 0) {
+                trendHTML += '<p>📊 <strong>資產穩定成長</strong> - 保持目前策略</p>';
+            } else {
+                trendHTML += '<p>⚠️ <strong>資產成長停滯</strong> - 可能需要調整投資組合</p>';
+            }
+
+            // 建議
+            trendHTML += '<h4 style="margin-top: 15px;">建議</h4>';
+            const avgInvestment = investmentTrend.reduce((a, b) => a + b, 0) / 3;
+            
+            if (avgInvestment < monthlyTarget * 0.9) {
+                trendHTML += '<p>💡 建議增加月投資金額至 <strong>' + formatNumber(monthlyTarget) + '</strong> 以達成目標</p>';
+            } else {
+                trendHTML += '<p>👍 投資金額符合目標，持續保持！</p>';
+            }
+
+            trendDiv.innerHTML = trendHTML;
+        }
+
+        function saveRecords() {
+            const data = {
+                records: records,
+                fireTarget: fireTarget,
+                monthlyTarget: monthlyTarget
+            };
+            // 在實際環境中，這裡會保存到本地存儲或資料庫
+            console.log('保存記錄:', data);
+        }
+
+        function loadRecords() {
+            // 在實際環境中，這裡會從本地存儲或資料庫載入
+            // 暫時使用示例資料
+            records = [
+                { year: 2024, month: 6, investment: 150000, assets: 2500000, event: '', date: new Date() },
+                { year: 2024, month: 7, investment: 180000, assets: 2720000, event: '', date: new Date() }
+            ];
+            updateRecordsDisplay();
+        }
     </script>
 </body>
 </html>
